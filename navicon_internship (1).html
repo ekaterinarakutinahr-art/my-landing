@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navicon — Стажёрская программа · Аналитик</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F3EE;
+    --ink: #1A1814;
+    --ink2: #4A4740;
+    --ink3: #888580;
+    --purple: #5C4FE0;
+    --purple-light: #EAE8FC;
+    --purple-mid: #C7C2F7;
+    --green: #1A7A5E;
+    --green-light: #E0F5EE;
+    --amber: #C46B00;
+    --amber-light: #FFF0D6;
+    --card: #FFFFFF;
+    --border: rgba(26,24,20,0.10);
+    --border-strong: rgba(26,24,20,0.18);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Onest', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,243,238,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--purple);
+  }
+  .nav-tag {
+    font-size: 12px; font-weight: 500;
+    background: var(--purple-light); color: var(--purple);
+    padding: 4px 12px; border-radius: 99px;
+  }
+
+  /* SECTIONS */
+  section { padding: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem); }
+
+  .container { max-width: 1060px; margin: 0 auto; }
+
+  /* HERO */
+  .hero {
+    padding-top: clamp(4rem, 10vw, 7rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+    padding-left: clamp(1.5rem, 5vw, 4rem);
+    padding-right: clamp(1.5rem, 5vw, 4rem);
+    background: linear-gradient(145deg, #EAE8FC 0%, #F5F3EE 55%);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .hero-inner { max-width: 1060px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--card); border: 0.5px solid var(--border-strong);
+    border-radius: 99px; padding: 6px 14px;
+    font-size: 12px; font-weight: 500; color: var(--ink2);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-badge span { width: 8px; height: 8px; background: var(--purple); border-radius: 50%; animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--purple); }
+  .hero-desc {
+    font-size: 18px; font-weight: 300; color: var(--ink2);
+    max-width: 560px; line-height: 1.8;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .meta-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card); border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm); padding: 10px 16px;
+    font-size: 13px; color: var(--ink2);
+  }
+  .meta-chip svg { flex-shrink: 0; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION HEADER */
+  .sec-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.10em;
+    text-transform: uppercase; color: var(--ink3);
+    margin-bottom: 1rem;
+  }
+  .sec-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    font-weight: 600; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 2rem;
+    line-height: 1.25;
+  }
+
+  /* REASONS GRID */
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .reason-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .reason-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(92,79,224,0.08); }
+  .reason-icon {
+    width: 42px; height: 42px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 1rem;
+  }
+  .reason-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .reason-body { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+
+  /* TWO-COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
+
+  .list-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+  }
+  .list-card h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem; color: var(--ink);
+  }
+  .task-list { list-style: none; }
+  .task-list li {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 13.5px; color: var(--ink2);
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+    line-height: 1.55;
+  }
+  .task-list li:last-child { border-bottom: none; }
+  .task-list li::before {
+    content: ''; display: block; flex-shrink: 0;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--purple-mid); margin-top: 7px;
+  }
+  .schedule-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
+  .pill {
+    font-size: 12px; font-weight: 500; padding: 5px 12px;
+    border-radius: 99px;
+  }
+  .pill-blue { background: #E6F0FC; color: #1A4FA0; }
+  .pill-green { background: var(--green-light); color: var(--green); }
+
+  /* PERKS */
+  .perks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .perk-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .perk-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .perk-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .perk-body { font-size: 12px; color: var(--ink3); line-height: 1.5; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 36px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px;
+    width: 1px; background: var(--border-strong);
+  }
+  .tl-item { position: relative; margin-bottom: 2rem; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: -29px; top: 5px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--purple-light); border: 2px solid var(--purple);
+  }
+  .tl-phase { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--purple); margin-bottom: 4px; }
+  .tl-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+  .community-band {
+    background: var(--purple);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  @media (max-width: 700px) { .community-band { grid-template-columns: 1fr; } }
+  .comm-cell {
+    padding: 1.5rem 1.75rem;
+    background: var(--purple);
+    position: relative;
+  }
+  .comm-cell + .comm-cell::before {
+    content: '';
+    position: absolute; left: 0; top: 15%; bottom: 15%;
+    width: 0.5px; background: rgba(255,255,255,0.15);
+  }
+  @media (max-width: 700px) {
+    .comm-cell + .comm-cell::before { left: 15%; right: 15%; top: 0; bottom: auto; width: auto; height: 0.5px; }
+  }
+  .comm-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .comm-title { font-family: 'Unbounded', sans-serif; font-size: 15px; font-weight: 600; color: white; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .comm-desc { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.65; }
+  .grad-banner {
+    background: var(--amber-light);
+    border: 0.5px solid rgba(196,107,0,0.18);
+    border-radius: var(--radius);
+    padding: 2rem 2.5rem;
+    display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .grad-icon-wrap {
+    width: 64px; height: 64px; flex-shrink: 0;
+    background: var(--amber-light); border: 1.5px solid rgba(196,107,0,0.25);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .grad-text h3 { font-family: 'Unbounded', sans-serif; font-size: 16px; font-weight: 600; color: var(--amber); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .grad-text p { font-size: 13.5px; color: #7A4800; line-height: 1.65; }
+
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    border-bottom: 0.5px solid var(--border);
+  }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 0; gap: 1rem;
+    text-align: left;
+  }
+  .faq-q-text {
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    font-family: 'Onest', sans-serif; line-height: 1.5;
+  }
+  .faq-icon {
+    flex-shrink: 0; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--purple-light);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.25s ease;
+  }
+  .faq-icon svg { transition: transform 0.25s ease; }
+  .faq-item.open .faq-icon { background: var(--purple); }
+  .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg path { stroke: white; }
+  .faq-a {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+  }
+  .faq-a-inner {
+    padding-bottom: 1.25rem;
+    font-size: 14px; color: var(--ink2); line-height: 1.75;
+  }
+  .faq-a-inner strong { color: var(--ink); font-weight: 500; }
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  /* CTA FOOTER */
+  .cta-footer {
+    background: var(--purple);
+    color: white;
+    text-align: center;
+    padding: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+  }
+  .cta-footer .sec-label { color: rgba(255,255,255,0.55); }
+  .cta-footer h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    font-weight: 700; letter-spacing: -0.03em;
+    margin-bottom: 1rem; color: white; line-height: 1.2;
+  }
+  .cta-footer p {
+    font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.75);
+    max-width: 460px; margin: 0 auto 2rem;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: white; color: var(--purple);
+    font-family: 'Onest', sans-serif; font-size: 15px; font-weight: 500;
+    padding: 14px 32px; border-radius: var(--radius-sm);
+    text-decoration: none; border: none; cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: scale(0.985); }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.9rem; }
+    .reasons-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NAVICON</div>
+  <span class="nav-tag">Набор открыт · Старт июнь 2026</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span></span>
+      Стажёрская программа 2026 · Направление «Аналитик»
+    </div>
+    <h1>Старт карьеры<br>в <em>IT-консалтинге</em></h1>
+    <p class="hero-desc">Без коммерческого опыта — только желание учиться. Реальные проекты для крупных клиентов уже через месяц после начала.</p>
+    <div class="hero-meta">
+      <div class="meta-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        м. Дубровка, Москва
+      </div>
+      <div class="meta-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Старт — июнь 2025
+      </div>
+      <div class="meta-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        3 дня в неделю (очно + дистанционно)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REASONS -->
+<section>
+  <div class="container">
+    <p class="sec-label">Почему стоит участвовать</p>
+    <h2 class="sec-title">Четыре причины выбрать Navicon</h2>
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-icon" style="background:#EAE8FC;">🚀</div>
+        <p class="reason-title">Без опыта</p>
+        <p class="reason-body">Компания целенаправленно ищет студентов и выпускников. Коммерческий опыт не нужен — важно желание расти.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon" style="background:#E0F5EE;">💼</div>
+        <p class="reason-title">Реальные проекты</p>
+        <p class="reason-body">После месяца обучения — работа с крупными клиентами на современных платформах BPMSoft и ELMA.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon" style="background:#FFF0D6;">🎓</div>
+        <p class="reason-title">Наставничество</p>
+        <p class="reason-body">За каждым стажёром закрепляется опытный консультант, который обучает системной аналитике и low-code.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon" style="background:#EAF3DE;">📈</div>
+        <p class="reason-title">Карьерный лифт</p>
+        <p class="reason-body">Лучшие участники по итогам программы получают оффер на постоянную работу в Navicon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASKS & CANDIDATE -->
+<section style="padding-top:0;">
+  <div class="container">
+    <div class="two-col">
+      <div class="list-card">
+        <h3>Чем предстоит заниматься</h3>
+        <ul class="task-list">
+          <li>Сбор и анализ требований заказчика</li>
+          <li>Разработка проектной документации и тест-кейсов</li>
+          <li>Настройка бизнес-процессов в BPMSoft и ELMA</li>
+          <li>Консультирование команды разработки</li>
+          <li>Обучение конечных пользователей</li>
+        </ul>
+      </div>
+      <div class="list-card">
+        <h3>Кого ждут в команду</h3>
+        <ul class="task-list">
+          <li>Студенты: прикладная информатика, бизнес-информатика, ИТ в управлении, экономика</li>
+          <li>Выпускники без коммерческого опыта</li>
+          <li>Готовность к смешанному формату работы</li>
+          <li>Интерес к IT, аналитике и бизнес-процессам</li>
+        </ul>
+        <div class="schedule-pills">
+          <span class="pill pill-blue">2 дня очно / неделю</span>
+          <span class="pill pill-green">1 день дистанционно</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section style="padding-top:0;">
+  <div class="container">
+    <p class="sec-label">Как устроена программа</p>
+    <h2 class="sec-title">Этапы стажировки</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-phase">Месяц 1</p>
+        <p class="tl-title">Активное обучение</p>
+        <p class="tl-desc">Погружение в методологию системного анализа, изучение платформ BPMSoft и ELMA, работа с наставником.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-phase">Месяц 2–3</p>
+        <p class="tl-title">Первые проекты</p>
+        <p class="tl-desc">Участие в реальных клиентских проектах под руководством опытных консультантов. Сбор требований, документация.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-phase">Финал</p>
+        <p class="tl-title">Итоги и оффер</p>
+        <p class="tl-desc">Оценка результатов, получение сертификата. Лучшие стажёры получают предложение о постоянной работе в Navicon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section style="padding-top:0;">
+  <div class="container">
+    <p class="sec-label">Что получат участники</p>
+    <h2 class="sec-title">Бонусы программы</h2>
+    <div class="perks-grid">
+      <div class="perk-card">
+        <div class="perk-icon" style="background:#EAE8FC;">👕</div>
+        <div>
+          <p class="perk-title">Фирменный мерч</p>
+          <p class="perk-body">Толстовка, кружка и стикерпак Navicon</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon" style="background:#E0F5EE;">📄</div>
+        <div>
+          <p class="perk-title">Сертификат</p>
+          <p class="perk-body">Официальный документ о прохождении стажировки</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon" style="background:#FFF0D6;">💼</div>
+        <div>
+          <p class="perk-title">Оффер на работу</p>
+          <p class="perk-body">Для лучших участников по итогам программы</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon" style="background:#EAF3DE;">🤝</div>
+        <div>
+          <p class="perk-title">Нетворкинг</p>
+          <p class="perk-body">Рекомендации и связи от экспертов рынка</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon" style="background:#FFF0D6;">🎓</div>
+        <div>
+          <p class="perk-title">Торжественный выпускной</p>
+          <p class="perk-body">Финальное мероприятие для всех участников программы</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section style="padding-top:0;">
+  <div class="container">
+    <p class="sec-label">Атмосфера и комьюнити</p>
+    <h2 class="sec-title">Не просто стажировка — своя среда</h2>
+    <div class="community-band">
+      <div class="comm-cell">
+        <span class="comm-icon">💬</span>
+        <p class="comm-title">Живое комьюнити</p>
+        <p class="comm-desc">Мы создаём пространство, где стажёры общаются, помогают друг другу и остаются на связи после программы.</p>
+      </div>
+      <div class="comm-cell">
+        <span class="comm-icon">☀️</span>
+        <p class="comm-title">Дружеская атмосфера</p>
+        <p class="comm-desc">Никакого формализма и дистанции. Открытые наставники, поддерживающая команда и культура взаимопомощи.</p>
+      </div>
+      <div class="comm-cell">
+        <span class="comm-icon">🎉</span>
+        <p class="comm-title">Совместные активности</p>
+        <p class="comm-desc">Встречи, нетворкинг-сессии и неформальные события — чтобы стажировка запомнилась не только проектами.</p>
+      </div>
+    </div>
+    <div class="grad-banner">
+      <div class="grad-icon-wrap">🎓</div>
+      <div class="grad-text">
+        <h3>Торжественный выпускной</h3>
+        <p>В финале программы мы проводим настоящий выпускной для всех участников — с церемонией вручения сертификатов, подведением итогов и праздничной атмосферой. Это момент, который хочется запомнить.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <p class="sec-label">Часто задаваемые вопросы</p>
+    <h2 class="sec-title">Ответы на главные вопросы</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Нужен ли опыт работы, чтобы подать заявку?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Нет, коммерческий опыт не требуется. Программа специально создана для <strong>студентов и выпускников без опыта работы</strong>. Важны желание учиться, базовое понимание IT и интерес к бизнес-аналитике.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Оплачивается ли стажировка?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Детали оплаты уточняются на собеседовании. Программа ориентирована на получение <strong>реального опыта, кейсов в портфолио, сертификата</strong> и возможности получить оффер на постоянную позицию.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Какой график работы во время стажировки?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Формат смешанный: <strong>2 дня в неделю очно</strong> в офисе у м. Дубровка и <strong>1 день дистанционно</strong>. Это позволяет совмещать стажировку с учёбой в вузе.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Какие специальности подходят для участия?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Приоритет отдаётся студентам по направлениям: <strong>прикладная информатика, бизнес-информатика, ИТ в управлении, экономика</strong> и смежным специальностям. Если ваша специальность не входит в список, но вы мотивированы — всё равно стоит попробовать.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Что такое BPMSoft и ELMA — нужно ли знать их заранее?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Нет, этому научат в рамках программы. BPMSoft и ELMA — это <strong>российские low-code платформы</strong> для автоматизации бизнес-процессов. Первый месяц стажировки полностью посвящён обучению работе с ними.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Гарантирован ли оффер по итогам стажировки?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Оффер на постоянную позицию получают <strong>лучшие участники</strong> по результатам программы. Критерии оцениваются в ходе работы над проектами: вовлечённость, качество документации, скорость обучения и работа в команде.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Как проходит отбор? Есть ли технические задания?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Процесс отбора включает рассмотрение резюме и собеседование. Точный формат уточняется при подаче заявки. Акцент делается на <strong>мотивации и аналитическом мышлении</strong>, а не на готовых технических навыках.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Когда начинается программа и сколько она длится?</span>
+          <span class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C4FE0" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Старт программы — <strong>июнь 2026</strong>. Продолжительность не указана явно, но исходя из структуры (месяц обучения + проектная работа) ориентировочно составляет <strong>3–4 месяца</strong>. Уточняйте детали на собеседовании.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<footer class="cta-footer">
+  <div class="container">
+    <p class="sec-label">Не упустите возможность</p>
+    <h2>Готовы попробовать?</h2>
+    <p>Подайте заявку сейчас — набор ограничен, старт в июне 2026.</p>
+    <a href="#" class="btn-primary">Подать заявку →</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+      btn.setAttribute('aria-expanded', !isOpen);
+    });
+  });
+</script>
+
+</body>
+</html>
